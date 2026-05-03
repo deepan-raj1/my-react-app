@@ -1,8 +1,11 @@
-function Message({ name, role }) {
+function Message({ name, role, onDelete }) {
   return (
-    <h3>
-      Hello, {name} 👋 - {role}
-    </h3>
+    <div>
+      <h3>
+        Hello, {name} 👋 - {role}
+      </h3>
+      <button onClick={onDelete}>Delete</button>
+    </div>
   );
 }
 

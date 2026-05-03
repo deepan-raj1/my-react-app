@@ -88,6 +88,13 @@ function App() {
     setRole("");
   };
 
+  const deleteUser = (indexToDelete) => {
+    if (!window.confirm("Are you sure?")) return;
+
+    const updatedUsers = users.filter((_, index) => index !== indexToDelete);
+    setUsers(updatedUsers);
+  };
+
   return (
     <div>
       <h1>Users Management 🚀</h1>
@@ -117,6 +124,7 @@ function App() {
           key={index}
           name={user.name}
           role={user.role}
+          onDelete={() => deleteUser(index)}
         />
       ))}
     </div>
