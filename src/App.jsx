@@ -73,6 +73,7 @@ function App() {
 
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
+  const [editIndex, setEditIndex] = useState(null);
 
   const addUser = () => {
     // ✅ Validation here
@@ -81,8 +82,17 @@ function App() {
       return;
     }
 
-    const newUser = { name, role };
-    setUsers([...users, newUser]);
+    if (editIndex !== null) {
+      // Update existing user
+      const updatedUsers = [...users];
+      updatedUsers[editIndex] = { name, role };
+      setUsers(updatedUsers);
+      setEditIndex(null);
+    } else {
+      // Add new user
+      const newUser = { name, role };
+      setUsers([...users, newUser]);
+    }
 
     setName("");
     setRole("");
@@ -94,6 +104,13 @@ function App() {
     const updatedUsers = users.filter((_, index) => index !== indexToDelete);
     setUsers(updatedUsers);
   };
+
+  const editUser = (index) => {
+    setName(users[index].name);
+    setRole(users[index].role);
+    setEditIndex(index);
+  };
+
 
   return (
     <div>
@@ -114,7 +131,9 @@ function App() {
         onChange={(e) => setRole(e.target.value)}
       />
 
-      <button onClick={addUser}>Add User</button>
+      <button onClick={addUser}>
+        {editIndex !== null ? "Update User" : "Add User"}
+      </button>
 
       <hr />
 
@@ -125,11 +144,14 @@ function App() {
           name={user.name}
           role={user.role}
           onDelete={() => deleteUser(index)}
+          onEdit={() => editUser(index)}
         />
       ))}
     </div>
   );
 }
+
+
 
 export default App;
 
